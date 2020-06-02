@@ -1,0 +1,13 @@
+CREATE TABLE users(
+    id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+    name TEXT NOT NULL,
+    password TEXT,
+    level INT UNSIGNED
+)
+
+CREATE TABLE videos(
+    id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+    title TEXT NOT NULL,
+    descritpion TEXT,
+    filepath TEXT NOT NULL
+)
