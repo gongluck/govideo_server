@@ -8,6 +8,7 @@
 package utils
 
 import (
+	"fmt"
 	"govideo_server/model"
 
 	"github.com/jinzhu/gorm"
@@ -25,7 +26,15 @@ func init() {
 		panic("failed to connect database")
 	}
 
-	db = db.CreateTable(&model.User{})
+	// 检查模型`User`表是否存在
+	if !db.HasTable(&model.User{}) {
+		fmt.Println("CreateTable users")
+		db.CreateTable(&model.User{})
+	}
+}
+
+func DelUsers() {
+	db.Delete(&model.User{})
 }
 
 func AddUser(user *model.User) bool {
