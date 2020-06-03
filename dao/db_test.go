@@ -2,7 +2,7 @@
  * @Author: gongluck
  * @Date: 2020-06-02 20:36:11
  * @Last Modified by: gongluck
- * @Last Modified time: 2020-06-03 10:50:27
+ * @Last Modified time: 2020-06-03 11:15:24
  */
 
 package dao_test
@@ -14,7 +14,10 @@ import (
 	"testing"
 )
 
-var id uint
+var (
+	uid uint
+	vid uint
+)
 
 func TestMain(m *testing.M) {
 	m.Run()
@@ -34,6 +37,17 @@ func TestUser(t *testing.T) {
 	t.Run("测试获取用户表：", testGetUsers)
 
 	t.Run("测试获取单用户：", testGetUser)
+}
+
+func TestVideo(t *testing.T) {
+	t.Run("测试清空视频表：", testDelVideos)
+	t.Run("测试获取视频表：", testGetVideos)
+
+	t.Run("测试添加视频：", testAddVideo)
+	t.Run("测试添加多个视频：", testAddVideos)
+	t.Run("测试获取视频表：", testGetVideos)
+
+	t.Run("测试获取单视频：", testGetVideo)
 }
 
 func testDelUsers(t *testing.T) {
@@ -57,7 +71,7 @@ func testAddUser(t *testing.T) {
 	if !dao.AddUser(user) {
 		t.Error("AddUser fail.")
 	}
-	id = user.ID
+	uid = user.ID
 }
 
 func testAddUsers(t *testing.T) {
@@ -103,7 +117,7 @@ func testAddSameUsers(t *testing.T) {
 }
 
 func testGetUser(t *testing.T) {
-	user := dao.GetUserByID(id)
+	user := dao.GetUserByID(uid)
 	if user.ID == 0 {
 		t.Error("GetUserByID fail.")
 	}
@@ -118,5 +132,69 @@ func testGetUser(t *testing.T) {
 	user = dao.GetUserByName("notexist")
 	if user.ID != 0 {
 		t.Error("GetUserByName for notexist fail.")
+	}
+}
+
+func testDelVideos(t *testing.T) {
+	dao.DelVideos()
+}
+
+func testGetVideos(t *testing.T) {
+	videos := dao.GetVideos()
+	for k, v := range videos {
+		fmt.Printf("videos[%v]:%v\n", k, v)
+	}
+}
+
+func testAddVideo(t *testing.T) {
+	video := &model.Video{
+		//ID:       0,
+		Title:       "testAddVideo",
+		Description: "testAddVideo111",
+		Filepath:    "Filepath111",
+	}
+	if !dao.AddVideo(video) {
+		t.Error("AddVideo fail.")
+	}
+	vid = video.ID
+}
+
+func testAddVideos(t *testing.T) {
+	video1 := model.Video{
+		//ID:       0,
+		Title:       "testAddVideos",
+		Description: "testAddVideos111",
+		Filepath:    "Filepath111",
+	}
+	video2 := model.Video{
+		//ID:       0,
+		Title:       "testAddVideos",
+		Description: "testAddVideos222",
+		Filepath:    "Filepath222",
+	}
+	if !dao.AddVideo(&video1) {
+		t.Error("AddVideo1 fail.")
+	}
+	if !dao.AddVideo(&video2) {
+		t.Error("AddVideo2 fail.")
+	}
+}
+
+func testGetVideo(t *testing.T) {
+	video := dao.GetVideoByID(vid)
+	if video.ID == 0 {
+		t.Error("GetVideoByID fail.")
+	}
+	fmt.Printf("video: %v\n", video)
+
+	video = dao.GetVideoByTitle("testAddVideo")
+	if video.ID == 0 {
+		t.Error("GetVideoByTitle fail.")
+	}
+	fmt.Printf("video: %v\n", video)
+
+	video = dao.GetVideoByTitle("notexist")
+	if video.ID != 0 {
+		t.Error("GetVideoByTitle for notexist fail.")
 	}
 }
