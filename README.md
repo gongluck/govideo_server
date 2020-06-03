@@ -8,7 +8,7 @@ go开发视频服务后台
 |字段|描述|类型|
 |:-|:-|-:|
 |id|用户唯一标识(主键,自动增长)|INTEGER|
-|name|用户名(非空)|text|
+|name|用户名(非空,唯一)|text|
 |password|密码|text|
 |level|用户等级(非空)|INTEGER|
 

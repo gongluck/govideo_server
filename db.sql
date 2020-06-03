@@ -1,6 +1,6 @@
 CREATE TABLE users(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name TEXT NOT NULL,
+    name TEXT NOT NULL UNIQUE,
     password TEXT,
     level INTEGER NOT NULL
 )
