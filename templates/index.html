@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>GoVideo</title>
+    <style type="text/css">
+        body {
+            padding: 0;
+            margin: 0 auto;
+        }
+        #footer {
+            height: 30px;
+            line-height: 30px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            text-align: center;
+            background: #333;
+            color: #fff;
+            font-family: Arial;
+            font-size: 12px;
+            letter-spacing: 1px;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <span>欢迎访问GoVideo</span>
+        <a href="/web/getvideos">主页</a>
+    </div>
+
+    {{range .}}
+
+    <!-- {{.ID}}<br> -->
+    <h1 style="font-family:verdana">{{.Title}}</h1>
+    <video controls width="800" height="400">
+        <source src="../{{.Filepath}}" type="video/mp4">
+        <p>Your browser doesn't support HTML5 video. Here is
+            a <a href="../{{.Filepath}}">link to the video</a> instead.</p>
+    </video>
+    <p style="font-family:courier">{{.Description}}</p>
+    <!-- {{.Filepath}}<br> -->
+    <a href="../{{.Filepath}}">下载</a><br>
+
+    {{else}}
+    <h1 style="font-family:verdana">无视频记录</h1>
+
+    {{end}}
+
+    <div id="footer">GoVideo.Copyright &copy;2020</div>
+
+</body>
+
+</html>

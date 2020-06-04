@@ -2,7 +2,7 @@
  * @Author: gongluck
  * @Date: 2020-06-03 11:34:06
  * @Last Modified by: gongluck
- * @Last Modified time: 2020-06-03 17:57:43
+ * @Last Modified time: 2020-06-04 11:20:19
  */
 
 package main
@@ -29,7 +29,13 @@ func main() {
 		api.POST("/postvideo", handler.PostVideo)
 	}
 
+	web := r.Group("/web")
+	{
+		web.GET("/getvideos", handler.WebGetVideos)
+	}
+
 	r.StaticFS("/videos", http.Dir("./videos"))
+	r.LoadHTMLGlob("templates/*")
 
 	r.Run() // 监听并在 0.0.0.0:8080 上启动服务
 }

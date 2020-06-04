@@ -2,7 +2,7 @@
  * @Author: gongluck
  * @Date: 2020-06-02 20:36:11
  * @Last Modified by: gongluck
- * @Last Modified time: 2020-06-03 11:15:24
+ * @Last Modified time: 2020-06-04 16:05:57
  */
 
 package dao_test
@@ -37,6 +37,8 @@ func TestUser(t *testing.T) {
 	t.Run("测试获取用户表：", testGetUsers)
 
 	t.Run("测试获取单用户：", testGetUser)
+
+	t.Run("测试清空用户表：", testDelUsers)
 }
 
 func TestVideo(t *testing.T) {
@@ -48,6 +50,8 @@ func TestVideo(t *testing.T) {
 	t.Run("测试获取视频表：", testGetVideos)
 
 	t.Run("测试获取单视频：", testGetVideo)
+
+	t.Run("测试清空视频表：", testDelVideos)
 }
 
 func testDelUsers(t *testing.T) {
