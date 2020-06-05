@@ -2,12 +2,19 @@
 <html>
 
 <head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="Golang, Web, Video Server">
+    <meta name="description" content="免费 Web & 编程 教程">
+    <meta name="author" content="gongluck">
+    <!-- <meta http-equiv="refresh" content="5"> -->
     <title>GoVideo</title>
+    <base href="/web/getvideos" target="_blank">
     <style type="text/css">
         body {
             padding: 0;
             margin: 0 auto;
         }
+
         #footer {
             height: 30px;
             line-height: 30px;
@@ -24,29 +31,47 @@
     </style>
 </head>
 
-<body>
+<body style="background-color:hsla(210, 22%, 71%, 0.25)">
     <div>
-        <span>欢迎访问GoVideo</span>
-        <a href="/web/getvideos">主页</a>
+        <img style="object-fit:contain;background-color:rgba(255,255,0,0.25);" width="300" height="200"
+            src="/videos/logo.png" alt="GoVideo">
+        <span style="font-family:cursive;font-size:50px;color:orangered;text-align:center;">欢迎访问GoVideo</span>
+        <a href="/web/getvideos"><i>主页</i>></a>
+        <a href="/web/upload" target="uploadiframe"><i>上传</i>></a>
     </div>
+    <hr />
 
-    {{range .}}
+    <!-- <iframe src="/web/upload" width="100%" height="100%" frameborder="0" name="uploadiframe"></iframe> -->
 
-    <!-- {{.ID}}<br> -->
-    <h1 style="font-family:verdana">{{.Title}}</h1>
-    <video controls width="800" height="400">
-        <source src="../{{.Filepath}}" type="video/mp4">
-        <p>Your browser doesn't support HTML5 video. Here is
-            a <a href="../{{.Filepath}}">link to the video</a> instead.</p>
-    </video>
-    <p style="font-family:courier">{{.Description}}</p>
-    <!-- {{.Filepath}}<br> -->
-    <a href="../{{.Filepath}}">下载</a><br>
+    <script>
+        document.write("Welcome to GoVideo")
+    </script>
+    <noscript>抱歉，你的浏览器不支持 JavaScript!</noscript>
 
-    {{else}}
-    <h1 style="font-family:verdana">无视频记录</h1>
+    <dl>
+        {{range .}}
 
-    {{end}}
+        <dt>
+            <!-- {{.ID}}<br> -->
+            <h1 style="font-family:verdana"><b>{{.Title}}</b></h1>
+            <video controls width="800" height="400">
+                <source src="../{{.Filepath}}" type="video/mp4">
+                <p>Your browser doesn't support HTML5 video. Here is
+                    a <a href="../{{.Filepath}}">link to the video</a> instead.</p>
+            </video>
+        <dd>
+            <p style="background-color:yellow;font-family:courier"><i>{{.Description}}</i></p>
+            <!-- {{.Filepath}}<br> -->
+            <a style="color:blue;margin-left:20px;" href="../{{.Filepath}}" target="_blank">下载</a>
+        </dd>
+        <hr />
+        </dt>
+
+        {{else}}
+        <h1 style="font-family:verdana">无视频记录</h1>
+
+        {{end}}
+    </dl>
 
     <div id="footer">GoVideo.Copyright &copy;2020</div>
 

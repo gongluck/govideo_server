@@ -2,7 +2,7 @@
  * @Author: gongluck
  * @Date: 2020-06-03 11:34:06
  * @Last Modified by: gongluck
- * @Last Modified time: 2020-06-04 11:20:19
+ * @Last Modified time: 2020-06-05 10:35:00
  */
 
 package main
@@ -32,6 +32,8 @@ func main() {
 	web := r.Group("/web")
 	{
 		web.GET("/getvideos", handler.WebGetVideos)
+
+		web.GET("/upload", handler.WebUploadVideo)
 	}
 
 	r.StaticFS("/videos", http.Dir("./videos"))
