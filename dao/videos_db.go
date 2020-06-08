@@ -2,7 +2,7 @@
  * @Author: gongluck
  * @Date: 2020-06-03 11:00:14
  * @Last Modified by: gongluck
- * @Last Modified time: 2020-06-03 11:14:57
+ * @Last Modified time: 2020-06-08 11:13:27
  */
 
 package dao
@@ -37,4 +37,14 @@ func GetVideoByTitle(title string) *model.Video {
 func GetVideos() (videos []*model.Video) {
 	db.Find(&videos)
 	return videos
+}
+
+func GetVideosByLimit(limit, offset int) (videos []*model.Video) {
+	db.Offset(offset).Limit(limit).Find(&videos)
+	return videos
+}
+
+func GetVideosCount() (count int) {
+	db.Model(&model.Video{}).Count(&count)
+	return count
 }

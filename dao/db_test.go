@@ -2,7 +2,7 @@
  * @Author: gongluck
  * @Date: 2020-06-02 20:36:11
  * @Last Modified by: gongluck
- * @Last Modified time: 2020-06-04 16:05:57
+ * @Last Modified time: 2020-06-08 11:16:17
  */
 
 package dao_test
@@ -49,9 +49,11 @@ func TestVideo(t *testing.T) {
 	t.Run("测试添加多个视频：", testAddVideos)
 	t.Run("测试获取视频表：", testGetVideos)
 
-	t.Run("测试获取单视频：", testGetVideo)
+	t.Run("测试获取视频：", testGetVideo)
 
+	t.Run("测试获取视频数：", testGetVideosCount)
 	t.Run("测试清空视频表：", testDelVideos)
+	t.Run("测试获取视频数：", testGetVideosCount)
 }
 
 func testDelUsers(t *testing.T) {
@@ -156,6 +158,7 @@ func testAddVideo(t *testing.T) {
 		Title:       "testAddVideo",
 		Description: "testAddVideo111",
 		Filepath:    "Filepath111",
+		Userid:      1,
 	}
 	if !dao.AddVideo(video) {
 		t.Error("AddVideo fail.")
@@ -169,12 +172,14 @@ func testAddVideos(t *testing.T) {
 		Title:       "testAddVideos",
 		Description: "testAddVideos111",
 		Filepath:    "Filepath111",
+		Userid:      1,
 	}
 	video2 := model.Video{
 		//ID:       0,
 		Title:       "testAddVideos",
 		Description: "testAddVideos222",
 		Filepath:    "Filepath222",
+		Userid:      1,
 	}
 	if !dao.AddVideo(&video1) {
 		t.Error("AddVideo1 fail.")
@@ -201,4 +206,16 @@ func testGetVideo(t *testing.T) {
 	if video.ID != 0 {
 		t.Error("GetVideoByTitle for notexist fail.")
 	}
+
+	videos := dao.GetVideosByLimit(3, 1)
+	if len(videos) == 0 {
+		t.Error("GetVideosByLimit fail.")
+	}
+	for k, v := range videos {
+		fmt.Printf("videos[%v]:%v\n", k, v)
+	}
+}
+
+func testGetVideosCount(t *testing.T) {
+	fmt.Println("videos count: ", dao.GetVideosCount())
 }
