@@ -1,5 +1,15 @@
 # govideo_server
-go开发视频服务后台
+![](https://github.com/gongluck/govideo_server/blob/master/videos/logo.png)
+go开发视频后台服务
+***GO***+***GORM***+***GIN***+***REDIS***+***UUID***
+
+## 编译和运行
+```Command
+go build
+启动 redis
+启动 govideo_server
+浏览器访问 http://localhost/web
+```
 
 ## 数据库设计
 
