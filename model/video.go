@@ -2,7 +2,7 @@
  * @Author: gongluck
  * @Date: 2020-06-03 10:55:13
  * @Last Modified by: gongluck
- * @Last Modified time: 2020-06-10 09:57:30
+ * @Last Modified time: 2020-06-10 15:37:03
  */
 
 package model
@@ -14,4 +14,9 @@ type Video struct {
 	Description string `json:"description"gorm:"column:description;type:text"`
 	Filepath    string `json:"filepath"gorm:"column:filepath;not null"`
 	Userid      uint   `json:"userid"gorm:"column:userid;type:integer;not null"`
+}
+
+type UploadResult struct {
+	Result string
+	Desc   string
 }

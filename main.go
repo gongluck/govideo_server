@@ -2,7 +2,7 @@
  * @Author: gongluck
  * @Date: 2020-06-03 11:34:06
  * @Last Modified by: gongluck
- * @Last Modified time: 2020-06-10 09:56:25
+ * @Last Modified time: 2020-06-10 15:52:36
  */
 
 package main
@@ -53,8 +53,10 @@ func main() {
 	// WEB路由
 	web := r.Group("/web")
 	{
+		web.GET("/", handler.WebIndex)
 		web.GET("/getvideos", handler.WebGetVideos)
-		web.GET("/upload", handler.WebUploadVideo)
+		web.GET("/upload", handler.WebUpload)
+		web.POST("/uploadvideo", handler.WebUploadVideo)
 	}
 
 	// 静态文件服务，获取视频文件

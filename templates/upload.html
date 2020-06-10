@@ -2,52 +2,27 @@
 <html>
 
 <head>
-    <meta charset="utf-8">
-    <meta name="keywords" content="Golang, Web, Video Server">
-    <meta name="description" content="免费 Web & 编程 教程">
-    <meta name="author" content="gongluck">
-    <!-- <meta http-equiv="refresh" content="5"> -->
     <title>GoVideo</title>
-    <base href="/web/getvideos" target="_blank">
-    <style type="text/css">
-        body {
-            padding: 0;
-            margin: 0 auto;
-        }
-
-        #footer {
-            height: 30px;
-            line-height: 30px;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            text-align: center;
-            background: #333;
-            color: #fff;
-            font-family: Arial;
-            font-size: 12px;
-            letter-spacing: 1px;
-        }
-    </style>
 </head>
 
 <body>
+
     <div>
-        <img style="object-fit:contain;" width="300" height="200" src="/videos/logo.png" alt="GoVideo">
-        <span style="font-family:cursive;font-size:50px;color:orangered;text-align:center;">欢迎访问GoVideo</span>
-        <a href="/web/getvideos"><i>主页</i>></a>
+        <img width="" height="" src="/videos/logo.png" alt="GoVideo's logo">
+        <span>欢迎访问GoVideo</span>
+        <a href="/web">主页</a>
     </div>
     <hr />
 
-    <form name="input" action="/api/postvideo" method="post" enctype="multipart/form-data">
+    <form name="input" action="/web/uploadvideo" method="post" enctype="multipart/form-data">
         标题:<input id="title" type="text" name="title"><br />
         说明:
-        <textarea rows="" cols="30" name="description">请输入视频简介!</textarea><br />
+        <textarea rows="" cols="" name="description">请输入视频简介!</textarea><br />
         <input type="file" name="file" /><br />
-        <input type="submit" value="Submit">
+        <input type="submit" value="submit">
     </form>
 
-    <div id="footer">GoVideo.Copyright &copy;2020</div>
+    <div>GoVideo.Copyright &copy;2020</div>
 
 </body>
 
