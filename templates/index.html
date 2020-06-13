@@ -3,12 +3,13 @@
 
 <head>
     <title>GoVideo</title>
+    <link type="text/css" rel="stylesheet" href="/static/css/style.css">
 </head>
 
 <body>
 
-    <div>
-        <img src="/videos/logo.png" alt="GoVideo's logo">
+    <div id="header">
+        <img src="/static/img/logo.png" alt="GoVideo's logo">
         <span>欢迎访问GoVideo</span>
         <a href="/web">主页</a>
         <a href="/web/postvideo">上传</a>
@@ -19,7 +20,7 @@
         {{range .}}
 
         <dt>
-            <h1 style="font-family:verdana"><b>{{.Title}}</b></h1>
+            <h1><b>{{.Title}}</b></h1>
             <video controls width="" height="">
                 <source src="../{{.Filepath}}" type="video/mp4">
                 <p>Your browser doesn't support HTML5 video. Here is a <a href="../{{.Filepath}}">link to the video</a> instead.</p>
@@ -32,7 +33,7 @@
         </dt>
 
         {{else}}
-        <h1 style="font-family:verdana">无视频记录</h1>
+        <h1>无视频记录</h1>
 
         {{end}}
     </dl>

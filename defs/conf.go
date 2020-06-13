@@ -9,7 +9,7 @@ package defs
 
 var (
 	// gin
-	GinMode string = "release"
+	GinMode string = "debug"
 
 	// http
 	HttpAddr    string = ":80"
@@ -23,7 +23,7 @@ var (
 	RedisKey      string = "govideo_server"
 
 	// videos
-	MaxFileSize    int64  = 50 * 1024 * 1024
-	FilePrefix     string = "./videos/"
-	TemplatesFiles string = "templates/*"
+	MaxFileSize   int64  = 50 * 1024 * 1024
+	FilePrefix    string = "./videos/"
+	TemplatesPath string = "templates/"
 )

@@ -61,11 +61,12 @@ func main() {
 		web.POST("/postvideoresult", handler.WebPostVideoResult)
 	}
 
-	// 静态文件服务，获取视频文件
+	// 静态文件服务，获取视频文件和网页资源文件
 	r.StaticFS("/videos", http.Dir(defs.FilePrefix))
+	r.StaticFS("/static", http.Dir(defs.TemplatesPath+"static"))
 
 	// 设置模板路径
-	r.LoadHTMLGlob(defs.TemplatesFiles)
+	r.LoadHTMLGlob(defs.TemplatesPath + "*.html")
 
 	// 启动HTTP服务
 	r.Run(defs.HttpAddr)
