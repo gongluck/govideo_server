@@ -2,7 +2,7 @@
  * @Author: gongluck
  * @Date: 2020-06-08 13:33:41
  * @Last Modified by: gongluck
- * @Last Modified time: 2020-06-08 15:16:14
+ * @Last Modified time: 2020-06-13 13:23:28
  */
 
 package util
@@ -50,7 +50,7 @@ func DelSession(c *gin.Context) error {
 	return session.Save()
 }
 
-func GetSessionUser(c *gin.Context) uint {
+func GetUserID(c *gin.Context) uint {
 	session := sessions.Default(c)
 	vsession := session.Get("session")
 	user := session.Get(vsession)

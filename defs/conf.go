@@ -2,7 +2,7 @@
  * @Author: gongluck
  * @Date: 2020-06-10 09:41:52
  * @Last Modified by: gongluck
- * @Last Modified time: 2020-06-10 09:56:43
+ * @Last Modified time: 2020-06-13 13:28:37
  */
 
 package defs
@@ -18,4 +18,8 @@ var (
 	RedisAddress  string = "localhost:6379"
 	RedisPassword string = ""
 	RedisKey      string = "govideo_server"
+
+	// videos
+	MaxFileSize int64  = 50 * 1024 * 1024
+	FilePrefix  string = "./videos/"
 )

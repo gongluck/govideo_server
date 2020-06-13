@@ -35,7 +35,7 @@ func WebUpload(c *gin.Context) {
 }
 
 func WebUploadVideo(c *gin.Context) {
-	user := util.GetSessionUser(c)
+	user := util.GetUserID(c)
 	if user == 0 {
 		//匿名用户
 	}

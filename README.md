@@ -56,6 +56,8 @@ type Video struct {
 ## 会话管理
 
 使用[Gin](https://gin-gonic.com/zh-cn/docs/)的**session**和其封装的**Redis**。
+
+*windows*版本的*redis*使用这个版本[redis](https://github.com/microsoftarchive/redis/releases)
 ```Go
 package util
 

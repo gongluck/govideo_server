@@ -2,7 +2,7 @@
  * @Author: gongluck
  * @Date: 2020-06-03 11:34:06
  * @Last Modified by: gongluck
- * @Last Modified time: 2020-06-10 15:52:36
+ * @Last Modified time: 2020-06-13 13:39:46
  */
 
 package main
@@ -42,12 +42,12 @@ func main() {
 	// API路由
 	api := r.Group("/api")
 	{
-		api.POST("/regist", handler.Regist)
-		api.POST("/login", handler.Login)
-		api.POST("/logout", handler.Logout)
+		api.POST("/regist", handler.ApiRegist)
+		api.POST("/login", handler.ApiLogin)
+		api.POST("/logout", handler.ApiLogout)
 
-		api.POST("/getvideos", handler.GetVideos)
-		api.POST("/postvideo", handler.PostVideo)
+		api.POST("/getvideos", handler.ApiGetVideos)
+		api.POST("/postvideo", handler.ApiPostVideo)
 	}
 
 	// WEB路由

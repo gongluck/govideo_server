@@ -2,7 +2,7 @@
  * @Author: gongluck
  * @Date: 2020-06-03 11:42:02
  * @Last Modified by: gongluck
- * @Last Modified time: 2020-06-08 15:48:39
+ * @Last Modified time: 2020-06-13 13:40:05
  */
 
 package handler
@@ -10,15 +10,12 @@ package handler
 import (
 	"encoding/json"
 	"fmt"
-	"govideo_server/dao"
-	"govideo_server/model"
-	"govideo_server/util"
 	"net/http"
-	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
 
+// 将结果格式化成json返回
 func ReturnResult(c *gin.Context, status int, ret int, data interface{}) {
 	c.JSON(status, gin.H{
 		"ret":  ret,
@@ -26,121 +23,87 @@ func ReturnResult(c *gin.Context, status int, ret int, data interface{}) {
 	})
 }
 
-func Regist(c *gin.Context) {
-	name := c.PostForm("name")
-	password := c.PostForm("password")
-	if name == "" || password == "" {
-		ReturnResult(c, http.StatusBadRequest, -1, "name or password wrong.")
-		return
-	}
+// 用户注册
+func ApiRegist(c *gin.Context) {
+	user, statuscode, err := regist(c)
 
-	user := dao.GetUserByName(name)
-	if user.ID != 0 {
-		ReturnResult(c, http.StatusBadRequest, -1, "you can not use this username "+name)
-		return
-	}
-
-	if !dao.AddUser(&model.User{
-		Name:     name,
-		Password: password,
-		Level:    10,
-	}) {
-		ReturnResult(c, http.StatusInternalServerError, -1, "regist fail.")
-	}
-
-	ReturnResult(c, http.StatusOK, 0, "login succeed.")
-}
-
-func Login(c *gin.Context) {
-	name := c.PostForm("name")
-	password := c.PostForm("password")
-	if name == "" || password == "" {
-		ReturnResult(c, http.StatusBadRequest, -1, "name or password wrong.")
-		return
-	}
-
-	user := dao.GetUserByName(name)
-	if user.ID == 0 {
-		ReturnResult(c, http.StatusBadRequest, -1, "can not find user "+name)
-		return
-	} else if user.Password != password {
-		ReturnResult(c, http.StatusBadRequest, -1, "password wrong.")
-		return
-	}
-
-	err := util.SetSession(c, user.ID)
 	if err != nil {
-		ReturnResult(c, http.StatusInternalServerError, -1, "fail to create session.")
+		ReturnResult(c, statuscode, -1, err.Error())
 		return
 	}
 
-	ReturnResult(c, http.StatusOK, 0, "login succeed.")
+	fmt.Println("user", user.Name, "regist succeed.", user)
+	ReturnResult(c, statuscode, 0, "regist succeed.")
+	return
 }
 
-func Logout(c *gin.Context) {
-	util.DelSession(c)
-	ReturnResult(c, http.StatusOK, 0, "logout succeed.")
-}
+// 用户登录
+func ApiLogin(c *gin.Context) {
+	user, statuscode, err := login(c)
 
-func GetVideos(c *gin.Context) {
-	user := util.GetSessionUser(c)
-	if user == 0 {
-		//ReturnResult(c, http.StatusNotAcceptable, -1, "Please login first.")
-		//return
+	if err != nil {
+		ReturnResult(c, statuscode, -1, err.Error())
+		return
 	}
 
-	videos := dao.GetVideos()
-	data, err := json.Marshal(videos)
+	fmt.Println("user", user.Name, "login succeed.", user)
+	ReturnResult(c, statuscode, 0, "login succeed.")
+	return
+}
+
+// 用户注销
+func ApiLogout(c *gin.Context) {
+	_, statuscode, err := logout(c)
+
 	if err != nil {
-		fmt.Println("JSON marshaling failed: ", err)
+		ReturnResult(c, statuscode, -1, err.Error())
+		return
+	}
+
+	fmt.Println("user", "logout succeed.")
+	ReturnResult(c, statuscode, 0, "logout succeed.")
+	return
+}
+
+// 获取所有视频信息
+func ApiGetVideos(c *gin.Context) {
+	videos, statuscode, err := getvideos(c)
+
+	if err != nil {
+		ReturnResult(c, statuscode, -1, err.Error())
+		return
+	}
+
+	var data []byte
+	data, err = json.Marshal(videos)
+	if err != nil {
+		fmt.Println("JSON marshaling failed:", err)
 	} else {
 		fmt.Printf("%s\n", data)
 	}
 
 	ReturnResult(c, http.StatusOK, 0, string(data))
+	return
 }
 
-func PostVideo(c *gin.Context) {
-	user := util.GetSessionUser(c)
-	if user == 0 {
-		//匿名用户
-	}
+// 上传视频
+func ApiPostVideo(c *gin.Context) {
+	video, statuscode, err := postvideo(c)
 
-	title := c.PostForm("title")
-	description := c.PostForm("description")
-	if title == "" {
-		ReturnResult(c, http.StatusBadRequest, -1, "your title is wrong.")
-		return
-	}
-
-	file, err := c.FormFile("file")
 	if err != nil {
-		ReturnResult(c, http.StatusInternalServerError, -1, "can not read post file param.")
+		ReturnResult(c, statuscode, -1, err.Error())
 		return
 	}
-	if file.Size > 50*1024*1024 {
-		ReturnResult(c, http.StatusInternalServerError, -1, "can not post file large than "+strconv.Itoa(50*1024*1024))
-		return
-	}
+	fmt.Println("post video succeed.", video)
 
-	newfilename := "videos/" + util.NewUUID() + ".mp4"
-	err = c.SaveUploadedFile(file, newfilename)
+	var data []byte
+	data, err = json.Marshal(video)
 	if err != nil {
-		ReturnResult(c, http.StatusInternalServerError, -1, "save file failed.")
-		return
+		fmt.Println("JSON marshaling failed:", err)
 	} else {
-		video := &model.Video{
-			Title:       title,
-			Description: description,
-			Filepath:    newfilename,
-			Userid:      user,
-		}
-		if !dao.AddVideo(video) {
-			ReturnResult(c, http.StatusInternalServerError, -1, "insert database failed.")
-			return
-		} else {
-			ReturnResult(c, http.StatusOK, 0, "post succeed.")
-			return
-		}
+		fmt.Printf("%s\n", data)
 	}
+
+	ReturnResult(c, http.StatusOK, 0, string(data))
+	return
 }
