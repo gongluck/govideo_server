@@ -2,7 +2,7 @@
  * @Author: gongluck
  * @Date: 2020-06-03 11:34:06
  * @Last Modified by: gongluck
- * @Last Modified time: 2020-06-13 13:39:46
+ * @Last Modified time: 2020-06-13 14:08:55
  */
 
 package main
@@ -54,13 +54,14 @@ func main() {
 	web := r.Group("/web")
 	{
 		web.GET("/", handler.WebIndex)
-		web.GET("/getvideos", handler.WebGetVideos)
-		web.GET("/upload", handler.WebUpload)
-		web.POST("/uploadvideo", handler.WebUploadVideo)
+
+		// 视频上传页面
+		web.GET("/postvideo", handler.WebPostVideo)
+		web.POST("/postvideoresult", handler.WebPostVideoResult)
 	}
 
 	// 静态文件服务，获取视频文件
-	r.StaticFS("/videos", http.Dir("./videos"))
+	r.StaticFS("/videos", http.Dir(defs.FilePrefix))
 
 	// 设置模板路径
 	r.LoadHTMLGlob("templates/*")
