@@ -15,8 +15,3 @@ type Video struct {
 	Filepath    string `json:"filepath"gorm:"column:filepath;not null"`
 	Userid      uint   `json:"userid"gorm:"column:userid;type:integer;not null"`
 }
-
-type UploadResult struct {
-	Result string
-	Desc   string
-}

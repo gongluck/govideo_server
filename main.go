@@ -20,6 +20,7 @@ import (
 
 func main() {
 	// Gin引擎
+	gin.SetMode(defs.GinMode)
 	r := gin.Default()
 
 	// Redis连接
@@ -64,7 +65,7 @@ func main() {
 	r.StaticFS("/videos", http.Dir(defs.FilePrefix))
 
 	// 设置模板路径
-	r.LoadHTMLGlob("templates/*")
+	r.LoadHTMLGlob(defs.TemplatesFiles)
 
 	// 启动HTTP服务
 	r.Run(defs.HttpAddr)
