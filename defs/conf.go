@@ -18,12 +18,12 @@ var (
 	// redis
 	RedisConnSize int    = 10
 	RedisNetWork  string = "tcp"
-	RedisAddress  string = "localhost:6379"
+	RedisAddress  string = "redis:6379"
 	RedisPassword string = ""
 	RedisKey      string = "govideo_server"
 
 	// videos
 	MaxFileSize   int64  = 50 * 1024 * 1024
-	FilePrefix    string = "./videos/"
-	TemplatesPath string = "templates/"
+	FilePrefix    string = "/govideo_server/videos/"
+	TemplatesPath string = "/govideo_server/templates/"
 )

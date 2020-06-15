@@ -97,15 +97,15 @@ func postvideo(c *gin.Context) (*model.Video, int, error) {
 		return nil, http.StatusInternalServerError, errors.New("can not post file large than " + strconv.FormatInt(defs.MaxFileSize, 10))
 	}
 
-	newfilename := defs.FilePrefix + util.NewUUID() + ".mp4"
-	err = c.SaveUploadedFile(file, newfilename)
+	newfilename := util.NewUUID() + ".mp4"
+	err = c.SaveUploadedFile(file, defs.FilePrefix+newfilename)
 	if err != nil {
-		return nil, http.StatusInternalServerError, errors.New("save file failed.")
+		return nil, http.StatusInternalServerError, errors.New("save file failed," + newfilename)
 	} else {
 		video := &model.Video{
 			Title:       title,
 			Description: description,
-			Filepath:    newfilename,
+			Filepath:    "videos/" + newfilename,
 			Userid:      userid,
 		}
 		if !dao.AddVideo(video) {

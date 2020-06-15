@@ -1,18 +1,20 @@
-# Version: 0.0.1
-#FROM alpine
-FROM golang
+# Version: 0.0.2
+FROM golang:1.14.4-alpine3.12 AS builder
+RUN apk --no-cache add build-base
+COPY . /code
+RUN mkdir -p /usr/local/go/src/github.com/gongluck && \
+    ln -s /code /usr/local/go/src/github.com/gongluck/govideo_server && \
+    cd /usr/local/go/src/github.com/gongluck/govideo_server && \
+    go env -w GOPROXY=https://goproxy.cn && \
+    CGO_ENABLED=1 go build -a
 
-WORKDIR /home/redis
-RUN wget http://download.redis.io/releases/redis-4.0.2.tar.gz
-RUN tar xzf redis-4.0.2.tar.gz
-WORKDIR /home/redis/redis-4.0.2
-RUN make
-RUN make install
+FROM alpine:3.12
+RUN apk --no-cache add tzdata ca-certificates libc6-compat libgcc libstdc++
+COPY --from=builder /usr/local/go/src/github.com/gongluck/govideo_server/govideo_server /govideo_server/app
+COPY --from=builder /usr/local/go/src/github.com/gongluck/govideo_server/templates /govideo_server/templates
+#RUN mkdir /govideo_server/videos
+WORKDIR /govideo_server
 
-WORKDIR /home/govideo_server
-COPY . /home/govideo_server
-RUN go env -w GOPROXY=https://goproxy.cn
-RUN go build
+CMD ["/govideo_server/app"]
+
 EXPOSE 80
-
-ENTRYPOINT ["./start.sh"]

@@ -1,0 +1,23 @@
+version: '3'
+services:
+    govideo:
+        image: gongluck/govideo_server
+        container_name: govideo
+        hostname: govideo
+        network_mode: bridge
+        command: /govideo_server/app
+        volumes: 
+            - ./videos:/govideo_server/videos
+        ports:
+            - "80:80"
+        #restart: always
+    redis:
+        image: redis
+        container_name: redis
+        hostname: redis
+        network_mode: bridge
+        command: redis-server
+        #volumes:
+        ports:
+            - "6379:6379"
+        restart: always

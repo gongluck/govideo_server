@@ -7,6 +7,8 @@
 package handler
 
 import (
+	"fmt"
+	"govideo_server/model"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -34,7 +36,14 @@ func WebPostVideo(c *gin.Context) {
 
 // 上传结果
 func WebPostVideoResult(c *gin.Context) {
-	video, statuscode, _ := postvideo(c)
-	c.HTML(statuscode, "postvideoresult.html", video)
-	return
+	video, statuscode, err := postvideo(c)
+	if err != nil {
+		fmt.Println("upload failed,", err.Error())
+		c.HTML(statuscode, "postvideoresult.html", &model.Video{
+			ID: 0,
+		})
+	} else {
+		c.HTML(statuscode, "postvideoresult.html", video)
+		return
+	}
 }

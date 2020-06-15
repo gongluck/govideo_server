@@ -5,11 +5,22 @@
 ***GO***+***GORM***+***GIN***+***REDIS***+***UUID***
 
 ## 编译和运行
-```Command
+```shell
 go build
 启动 redis
 启动 govideo_server
 浏览器访问 http://localhost/web
+```
+
+## docker编译运行
+```shell
+docker build -t gongluck/govideo_server .
+
+docker run -d --name redis redis
+docker run -i -t --name govideo -p 80:80 -v /e/code/govideo_server/videos:/govideo_server/videos --link redis:redis gongluck/govideo_server
+
+docker-compose up -d
+docker-compose down
 ```
 
 ## 数据库设计
