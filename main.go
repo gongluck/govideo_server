@@ -26,7 +26,7 @@ func main() {
 	// Redis连接
 	store, err := redis.NewStore(defs.RedisConnSize, defs.RedisNetWork, defs.RedisAddress, defs.RedisPassword, []byte(defs.RedisKey))
 	if err != nil {
-		panic("failed to connect redis")
+		panic("failed to connect redis " + err.Error())
 	}
 	// 随机生成前缀
 	redis.SetKeyPrefix(store, util.NewUUID())

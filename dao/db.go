@@ -22,7 +22,7 @@ var (
 func init() {
 	db, err = gorm.Open("sqlite3", "govideo.db")
 	if err != nil {
-		panic("failed to connect database")
+		panic("failed to connect database " + err.Error())
 	}
 
 	// 自动创建或更新表结构
