@@ -20,7 +20,7 @@ var (
 )
 
 func init() {
-	db, err = gorm.Open("sqlite3", "govideo.db")
+	db, err = gorm.Open("sqlite3", "./database/govideo.db")
 	if err != nil {
 		panic("failed to connect database " + err.Error())
 	}

@@ -22,7 +22,7 @@ func AddUser(user *model.User) bool {
 	return !db.NewRecord(user)
 }
 
-func GetUserByID(id uint) *model.User {
+func GetUserByID(id int64) *model.User {
 	user := &model.User{}
 	db.First(user, id)
 	return user
@@ -37,4 +37,9 @@ func GetUserByName(name string) *model.User {
 func GetUsers() (users []*model.User) {
 	db.Find(&users)
 	return users
+}
+
+func GetUsersCount() (count int) {
+	db.Model(&model.User{}).Count(&count)
+	return count
 }

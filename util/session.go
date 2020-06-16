@@ -18,7 +18,7 @@ func NewUUID() string {
 	return sessionid.String()
 }
 
-func SetSession(c *gin.Context, userid uint) error {
+func SetSession(c *gin.Context, userid int64) error {
 	uuidstr := NewUUID()
 	session := sessions.Default(c)
 	session.Set("session", uuidstr)
@@ -50,13 +50,13 @@ func DelSession(c *gin.Context) error {
 	return session.Save()
 }
 
-func GetUserID(c *gin.Context) uint {
+func GetUserID(c *gin.Context) int64 {
 	session := sessions.Default(c)
 	vsession := session.Get("session")
 	user := session.Get(vsession)
 	if user == nil {
 		return 0
 	} else {
-		return user.(uint)
+		return user.(int64)
 	}
 }

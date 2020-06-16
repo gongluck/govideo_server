@@ -2,7 +2,7 @@
 ![](https://github.com/gongluck/govideo_server/blob/master/videos/logo.png)
 
 ## go开发视频后台服务
-***GO***+***GORM***+***GIN***+***REDIS***+***UUID***
+***GO***+***GORM***+***GIN***+***REDIS***+***UUID***+**DOCKER**
 
 ## ~~编译和运行~~(可以使用docker了)
 ```shell
@@ -22,6 +22,7 @@ docker run -d --name redis redis
 docker run -i -t --name govideo -p 80:80 -v /e/code/govideo_server/videos:/govideo_server/videos --link redis:redis gongluck/govideo_server
 
 #脚本运行
+wget https://raw.githubusercontent.com/gongluck/govideo_server/master/docker-compose.yml
 docker-compose up -d
 docker-compose down
 ```
@@ -52,18 +53,18 @@ docker-compose down
 ```Go
 type User struct {
 	//gorm.Model
-	ID       uint   `gorm:"column:id;type:integer;primary_key;auto_increment"`
+	ID       int64   `gorm:"column:id;type:integer;primary_key;auto_increment"`
 	Name     string `gorm:"column:name;type:text;not null;unique"`
 	Password string `gorm:"column:password;type:text;not null"`
-	Level    uint   `gorm:"column:level;type:integer"`
+	Level    int64   `gorm:"column:level;type:integer"`
 }
 type Video struct {
 	//gorm.Model
-	ID          uint   `json:"id"gorm:"column:id;primary_key;auto_increment"`
+	ID          int64   `json:"id"gorm:"column:id;primary_key;auto_increment"`
 	Title       string `json:"title"gorm:"column:title;type:text;not null"`
 	Description string `json:"description"gorm:"column:description;type:text"`
 	Filepath    string `json:"filepath"gorm:"column:filepath;not null"`
-	Userid      uint   `json:"userid"gorm:"column:userid;type:integer;not null"`
+	Userid      int64   `json:"userid"gorm:"column:userid;type:integer;not null"`
 }
 ```
 
@@ -86,7 +87,7 @@ func NewUUID() string {
 	return sessionid.String()
 }
 
-func SetSession(c *gin.Context, userid uint) error {
+func SetSession(c *gin.Context, userid int64) error {
 	uuidstr := NewUUID()
 	session := sessions.Default(c)
 	session.Set("session", uuidstr)
@@ -118,14 +119,14 @@ func DelSession(c *gin.Context) error {
 	return session.Save()
 }
 
-func GetSessionUser(c *gin.Context) uint {
+func GetUserID(c *gin.Context) int64 {
 	session := sessions.Default(c)
 	vsession := session.Get("session")
 	user := session.Get(vsession)
 	if user == nil {
 		return 0
 	} else {
-		return user.(uint)
+		return user.(int64)
 	}
 }
 ```

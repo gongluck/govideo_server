@@ -8,6 +8,7 @@ services:
         command: /govideo_server/app
         volumes: 
             - ./videos:/govideo_server/videos
+            - ./database:/govideo_server/database
         ports:
             - "80:80"
         depends_on:

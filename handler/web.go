@@ -28,6 +28,61 @@ func WebGetVideos(c *gin.Context) {
 	return
 }
 
+// 用户注册
+func WebRegistPage(c *gin.Context) {
+	c.HTML(http.StatusOK, "regist.html", nil)
+	return
+}
+func WebRegist(c *gin.Context) {
+	user, statuscode, err := regist(c)
+
+	if err != nil {
+		fmt.Println("regist failed,", err.Error())
+		c.HTML(statuscode, "videoresult.html", &model.User{
+			ID: 0,
+		})
+	} else {
+		c.HTML(statuscode, "videoresult.html", user)
+		return
+	}
+}
+
+// 用户登录
+func WebLoginPage(c *gin.Context) {
+	c.HTML(http.StatusOK, "login.html", nil)
+	return
+}
+func WebLogin(c *gin.Context) {
+	user, statuscode, err := login(c)
+
+	if err != nil {
+		fmt.Println("login failed,", err.Error())
+		c.HTML(statuscode, "videoresult.html", &model.User{
+			ID: 0,
+		})
+	} else {
+		c.HTML(statuscode, "videoresult.html", user)
+		return
+	}
+	return
+}
+
+// 用户注销
+func WebLogout(c *gin.Context) {
+	user, statuscode, err := logout(c)
+
+	if err != nil {
+		fmt.Println("logout failed,", err.Error())
+		c.HTML(statuscode, "videoresult.html", &model.User{
+			ID: 0,
+		})
+	} else {
+		c.HTML(statuscode, "videoresult.html", user)
+		return
+	}
+	return
+}
+
 // 上传视频
 func WebPostVideo(c *gin.Context) {
 	c.HTML(http.StatusOK, "postvideo.html", nil)
@@ -39,11 +94,25 @@ func WebPostVideoResult(c *gin.Context) {
 	video, statuscode, err := postvideo(c)
 	if err != nil {
 		fmt.Println("upload failed,", err.Error())
-		c.HTML(statuscode, "postvideoresult.html", &model.Video{
+		c.HTML(statuscode, "videoresult.html", &model.Video{
 			ID: 0,
 		})
 	} else {
-		c.HTML(statuscode, "postvideoresult.html", video)
+		c.HTML(statuscode, "videoresult.html", video)
+		return
+	}
+}
+
+// 删除视频
+func WebDelVideo(c *gin.Context) {
+	video, statuscode, err := delvideo(c)
+	if err != nil {
+		fmt.Println("delete failed,", err.Error())
+		c.HTML(statuscode, "videoresult.html", &model.Video{
+			ID: 0,
+		})
+	} else {
+		c.HTML(statuscode, "videoresult.html", video)
 		return
 	}
 }

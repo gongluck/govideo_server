@@ -26,7 +26,7 @@ func main() {
 	// Redis连接
 	store, err := redis.NewStore(defs.RedisConnSize, defs.RedisNetWork, defs.RedisAddress, defs.RedisPassword, []byte(defs.RedisKey))
 	if err != nil {
-		panic("failed to connect redis " + defs.RedisAddress + err.Error())
+		panic("failed to connect redis " + defs.RedisAddress + " " + err.Error())
 	}
 	// 随机生成前缀
 	redis.SetKeyPrefix(store, util.NewUUID())
@@ -49,6 +49,7 @@ func main() {
 
 		api.POST("/getvideos", handler.ApiGetVideos)
 		api.POST("/postvideo", handler.ApiPostVideo)
+		api.POST("/delvideo", handler.ApiDelVideo)
 	}
 
 	// WEB路由
@@ -56,9 +57,18 @@ func main() {
 	{
 		web.GET("/", handler.WebIndex)
 
+		web.GET("/regist", handler.WebRegistPage)
+		web.POST("/regist", handler.WebRegist)
+		web.GET("/login", handler.WebLoginPage)
+		web.POST("/login", handler.WebLogin)
+		web.GET("/logout", handler.WebLogout)
+
 		// 视频上传页面
 		web.GET("/postvideo", handler.WebPostVideo)
 		web.POST("/postvideoresult", handler.WebPostVideoResult)
+
+		// 删除视频
+		web.POST("/delvideo", handler.WebDelVideo)
 	}
 
 	// 静态文件服务，获取视频文件和网页资源文件

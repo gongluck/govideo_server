@@ -9,8 +9,8 @@ package model
 
 type User struct {
 	//gorm.Model
-	ID       uint   `gorm:"column:id;type:integer;primary_key;auto_increment"`
+	ID       int64  `gorm:"column:id;type:integer;primary_key;auto_increment"`
 	Name     string `gorm:"column:name;type:text;not null;unique"`
 	Password string `gorm:"column:password;type:text;not null"`
-	Level    uint   `gorm:"column:level;type:integer"`
+	Level    int64  `gorm:"column:level;type:integer"`
 }

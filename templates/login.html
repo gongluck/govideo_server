@@ -4,8 +4,6 @@
 <head>
     <title>GoVideo</title>
     <link type="text/css" rel="stylesheet" href="/static/css/style.css">
-    <!-- 自动跳转 -->
-    <meta http-equiv="refresh" content="10;url=/web">
 </head>
 
 <body>
@@ -14,15 +12,14 @@
         <img src="/static/img/logo.png" alt="GoVideo's logo">
         <span>欢迎访问GoVideo</span>
         <a href="/web">主页</a>
-        <a href="/web/postvideo">上传</a>
     </div>
     <hr />
 
-    {{if .ID}}
-
-    <h1>上传成功！</h1>
-
-    {{end}}
+    <form name="input" action="/web/login" method="post" enctype="multipart/form-data">
+        用户名:<input id="name" type="text" name="name"><br />
+        密码:<input id="password" type="password" name="password"><br />
+        <input type="submit" value="登陆">
+    </form>
 
     <div>GoVideo.Copyright &copy;2020</div>
 

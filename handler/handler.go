@@ -35,7 +35,7 @@ func regist(c *gin.Context) (*model.User, int, error) {
 	user = &model.User{
 		Name:     name,
 		Password: password,
-		Level:    10,
+		Level:    int64(dao.GetUsersCount()),
 	}
 	if !dao.AddUser(user) {
 		return nil, http.StatusInternalServerError, errors.New("regist fail.")
@@ -113,5 +113,38 @@ func postvideo(c *gin.Context) (*model.Video, int, error) {
 		} else {
 			return video, http.StatusOK, nil
 		}
+	}
+}
+
+// 删除视频
+func delvideo(c *gin.Context) (*model.Video, int, error) {
+	postuserid := util.GetUserID(c)
+	if postuserid == 0 {
+		return nil, http.StatusBadRequest, errors.New("please login first.")
+	}
+	postuser := dao.GetUserByID(postuserid)
+	if postuser == nil {
+		return nil, http.StatusBadRequest, errors.New("wrong user.")
+	}
+
+	videoid := c.PostForm("videoid")
+	if videoid == "" {
+		return nil, http.StatusBadRequest, errors.New("your videoid is wrong.")
+	}
+	vid, err := strconv.ParseUint(videoid, 10, 32)
+	if err != nil {
+		return nil, http.StatusBadRequest, errors.New("your videoid is wrong." + err.Error())
+	}
+	video := dao.GetVideoByID(uint(vid))
+	if video.ID == 0 {
+		return nil, http.StatusBadRequest, errors.New("can not find video by id " + strconv.FormatUint(vid, 10))
+	}
+
+	videouser := dao.GetUserByID(video.Userid)
+	if videouser == nil || videouser.ID == postuser.ID || videouser.Level > postuser.Level {
+		dao.DelVideo(video)
+		return video, http.StatusOK, nil
+	} else {
+		return nil, http.StatusBadRequest, errors.New("you can not delete video.")
 	}
 }

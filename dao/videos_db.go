@@ -17,6 +17,10 @@ func DelVideos() {
 	db.Delete(&model.Video{})
 }
 
+func DelVideo(video *model.Video) {
+	db.Delete(video)
+}
+
 func AddVideo(video *model.Video) bool {
 	db.Create(&video)
 	return !db.NewRecord(video)

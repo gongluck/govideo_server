@@ -107,3 +107,25 @@ func ApiPostVideo(c *gin.Context) {
 	ReturnResult(c, http.StatusOK, 0, string(data))
 	return
 }
+
+// 删除视频
+func ApiDelVideo(c *gin.Context) {
+	video, statuscode, err := delvideo(c)
+
+	if err != nil {
+		ReturnResult(c, statuscode, -1, err.Error())
+		return
+	}
+	fmt.Println("delete video succeed.", video)
+
+	var data []byte
+	data, err = json.Marshal(video)
+	if err != nil {
+		fmt.Println("JSON marshaling failed:", err)
+	} else {
+		fmt.Printf("%s\n", data)
+	}
+
+	ReturnResult(c, http.StatusOK, 0, string(data))
+	return
+}

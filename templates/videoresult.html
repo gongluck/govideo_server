@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>GoVideo</title>
+    <link type="text/css" rel="stylesheet" href="/static/css/style.css">
+    <!-- 自动跳转 -->
+    <meta http-equiv="refresh" content="5;url=/web">
+</head>
+
+<body>
+
+    <div id="header">
+        <img src="/static/img/logo.png" alt="GoVideo's logo">
+        <span>欢迎访问GoVideo</span>
+        <a href="/web">主页</a>
+        <a href="/web/postvideo">上传</a>
+    </div>
+    <hr />
+
+    {{if .ID}}
+
+    <h1>操作成功！</h1>
+
+    {{else}}
+
+    <h1>操作失败！</h1>
+
+    {{end}}
+
+    <div>GoVideo.Copyright &copy;2020</div>
+
+</body>
+
+</html>
