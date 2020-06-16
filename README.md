@@ -4,7 +4,7 @@
 ## go开发视频后台服务
 ***GO***+***GORM***+***GIN***+***REDIS***+***UUID***
 
-## 编译和运行
+## ~~编译和运行~~(可以使用docker了)
 ```shell
 go build
 启动 redis
@@ -14,11 +14,14 @@ go build
 
 ## docker编译运行
 ```shell
-docker build -t gongluck/govideo_server .
+#下载镜像
+docker pull gongluck/govideo_server
 
+#手动运行
 docker run -d --name redis redis
 docker run -i -t --name govideo -p 80:80 -v /e/code/govideo_server/videos:/govideo_server/videos --link redis:redis gongluck/govideo_server
 
+#脚本运行
 docker-compose up -d
 docker-compose down
 ```

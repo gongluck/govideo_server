@@ -1,4 +1,4 @@
-version: '3'
+version: '2'
 services:
     govideo:
         image: gongluck/govideo_server
@@ -10,14 +10,15 @@ services:
             - ./videos:/govideo_server/videos
         ports:
             - "80:80"
-        #restart: always
+        depends_on:
+            - redis
+        links:
+            - redis:redis
+        
     redis:
         image: redis
         container_name: redis
         hostname: redis
         network_mode: bridge
         command: redis-server
-        #volumes:
-        ports:
-            - "6379:6379"
         restart: always
