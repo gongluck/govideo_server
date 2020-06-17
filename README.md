@@ -1,8 +1,12 @@
 # govideo_server
 ![](https://github.com/gongluck/govideo_server/blob/master/videos/logo.png)
 
+[http://www.gongluck.icu/web/](http://www.gongluck.icu/web/)
+
+[http://47.115.57.81/web/](http://47.115.57.81/web/)
+
 ## go开发视频后台服务
-***GO***+***GORM***+***GIN***+***REDIS***+***UUID***+**DOCKER**
+***GO***+***GORM***+***GIN***+***REDIS***+***UUID***+***DOCKER***
 
 ## ~~编译和运行~~(可以使用docker了)
 ```shell
@@ -14,7 +18,7 @@ go build
 
 ## docker编译运行
 ```shell
-#下载镜像
+#下载更新镜像
 docker pull gongluck/govideo_server
 
 #手动运行

@@ -37,7 +37,7 @@ func GetSessionAndUser(c *gin.Context) (interface{}, interface{}) {
 	return vsession, user
 }
 
-func DelSession(c *gin.Context) error {
+func DelSession(c *gin.Context) (int64, error) {
 	session := sessions.Default(c)
 	vsession, user := GetSessionAndUser(c)
 
@@ -46,8 +46,11 @@ func DelSession(c *gin.Context) error {
 	}
 	if user != nil {
 		session.Delete(user)
+	} else {
+		return 0, session.Save()
 	}
-	return session.Save()
+
+	return user.(int64), session.Save()
 }
 
 func GetUserID(c *gin.Context) int64 {

@@ -69,17 +69,14 @@ func WebLogin(c *gin.Context) {
 
 // 用户注销
 func WebLogout(c *gin.Context) {
-	user, statuscode, err := logout(c)
+	userid, statuscode, err := logout(c)
 
 	if err != nil {
 		fmt.Println("logout failed,", err.Error())
-		c.HTML(statuscode, "videoresult.html", &model.User{
-			ID: 0,
-		})
-	} else {
-		c.HTML(statuscode, "videoresult.html", user)
-		return
 	}
+	c.HTML(statuscode, "videoresult.html", &model.User{
+		ID: userid,
+	})
 	return
 }
 

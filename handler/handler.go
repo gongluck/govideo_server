@@ -68,9 +68,9 @@ func login(c *gin.Context) (*model.User, int, error) {
 }
 
 // 用户注销
-func logout(c *gin.Context) (*model.User, int, error) {
-	util.DelSession(c)
-	return nil, http.StatusOK, nil
+func logout(c *gin.Context) (int64, int, error) {
+	userid, err := util.DelSession(c)
+	return userid, http.StatusOK, err
 }
 
 // 获取所有视频信息
