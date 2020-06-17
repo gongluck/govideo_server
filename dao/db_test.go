@@ -15,8 +15,8 @@ import (
 )
 
 var (
-	uid uint
-	vid uint
+	uid int64
+	vid int64
 )
 
 func TestMain(m *testing.M) {

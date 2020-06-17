@@ -26,7 +26,7 @@ func AddVideo(video *model.Video) bool {
 	return !db.NewRecord(video)
 }
 
-func GetVideoByID(id uint) *model.Video {
+func GetVideoByID(id int64) *model.Video {
 	video := &model.Video{}
 	db.First(video, id)
 	return video
