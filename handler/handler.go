@@ -2,15 +2,16 @@
  * @Author: gongluck
  * @Date: 2020-06-13 12:32:52
  * @Last Modified by: gongluck
- * @Last Modified time: 2020-06-13 13:32:04
+ * @Last Modified time: 2020-06-17 15:48:41
  */
 
 package handler
 
 import (
 	"errors"
+	"fmt"
+	"govideo_server/conf"
 	"govideo_server/dao"
-	"govideo_server/defs"
 	"govideo_server/model"
 	"govideo_server/util"
 	"net/http"
@@ -93,12 +94,12 @@ func postvideo(c *gin.Context) (*model.Video, int, error) {
 	if err != nil {
 		return nil, http.StatusInternalServerError, errors.New("can not read post file param.")
 	}
-	if file.Size > defs.MaxFileSize {
-		return nil, http.StatusInternalServerError, errors.New("can not post file large than " + strconv.FormatInt(defs.MaxFileSize, 10))
+	if file.Size > conf.Config.Video.MaxFileSize {
+		return nil, http.StatusInternalServerError, errors.New("can not post file large than " + strconv.FormatInt(conf.Config.Video.MaxFileSize, 10))
 	}
 
 	newfilename := util.NewUUID() + ".mp4"
-	err = c.SaveUploadedFile(file, defs.FilePrefix+newfilename)
+	err = c.SaveUploadedFile(file, conf.Config.Video.FilePrefix+newfilename)
 	if err != nil {
 		return nil, http.StatusInternalServerError, errors.New("save file failed," + newfilename)
 	} else {
@@ -131,17 +132,19 @@ func delvideo(c *gin.Context) (*model.Video, int, error) {
 	if videoid == "" {
 		return nil, http.StatusBadRequest, errors.New("your videoid is wrong.")
 	}
-	vid, err := strconv.ParseUint(videoid, 10, 32)
+	vid, err := strconv.ParseInt(videoid, 10, 64)
 	if err != nil {
 		return nil, http.StatusBadRequest, errors.New("your videoid is wrong." + err.Error())
 	}
-	video := dao.GetVideoByID(uint(vid))
+	video := dao.GetVideoByID(vid)
 	if video.ID == 0 {
-		return nil, http.StatusBadRequest, errors.New("can not find video by id " + strconv.FormatUint(vid, 10))
+		return nil, http.StatusBadRequest, errors.New("can not find video by id " + strconv.FormatInt(vid, 10))
 	}
 
 	videouser := dao.GetUserByID(video.Userid)
 	if videouser == nil || videouser.ID == postuser.ID || videouser.Level > postuser.Level {
+		fmt.Println("videouser:", videouser)
+		fmt.Println("postuser:", postuser)
 		dao.DelVideo(video)
 		return video, http.StatusOK, nil
 	} else {

@@ -23,10 +23,11 @@ docker pull gongluck/govideo_server
 
 #手动运行
 docker run -d --name redis redis
-docker run -i -t --name govideo -p 80:80 -v /e/code/govideo_server/videos:/govideo_server/videos --link redis:redis gongluck/govideo_server
+docker run -i -t --name govideo -p 80:80 -v /e/code/govideo_server/videos:/govideo_server/videos -v /e/code/govideo_server/conf:/govideo_server/conf -v /e/code/govideo_server/database:/govideo_server/database --link redis:redis gongluck/govideo_server
 
 #脚本运行
 wget https://raw.githubusercontent.com/gongluck/govideo_server/master/docker-compose.yml
+wget https://raw.githubusercontent.com/gongluck/govideo_server/master/conf/config.yml
 docker-compose up -d
 docker-compose down
 ```

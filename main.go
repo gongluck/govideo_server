@@ -2,13 +2,13 @@
  * @Author: gongluck
  * @Date: 2020-06-03 11:34:06
  * @Last Modified by: gongluck
- * @Last Modified time: 2020-06-13 14:08:55
+ * @Last Modified time: 2020-06-17 14:57:08
  */
 
 package main
 
 import (
-	"govideo_server/defs"
+	"govideo_server/conf"
 	"govideo_server/handler"
 	"govideo_server/util"
 	"net/http"
@@ -20,18 +20,18 @@ import (
 
 func main() {
 	// Gin引擎
-	gin.SetMode(defs.GinMode)
+	gin.SetMode(conf.Config.Http.GinMode)
 	r := gin.Default()
 
 	// Redis连接
-	store, err := redis.NewStore(defs.RedisConnSize, defs.RedisNetWork, defs.RedisAddress, defs.RedisPassword, []byte(defs.RedisKey))
+	store, err := redis.NewStore(conf.Config.Redis.ConnSize, conf.Config.Redis.NetWork, conf.Config.Redis.Address, conf.Config.Redis.Password, []byte(conf.Config.Redis.Key))
 	if err != nil {
-		panic("failed to connect redis " + defs.RedisAddress + " " + err.Error())
+		panic("failed to connect redis " + conf.Config.Redis.Address + " " + err.Error())
 	}
 	// 随机生成前缀
 	redis.SetKeyPrefix(store, util.NewUUID())
 	// 使用session和redis
-	r.Use(sessions.Sessions(defs.SessionName, store))
+	r.Use(sessions.Sessions(conf.Config.Http.SessionName, store))
 
 	// ping-pong接口，测试网络
 	r.GET("/ping", func(c *gin.Context) {
@@ -72,12 +72,12 @@ func main() {
 	}
 
 	// 静态文件服务，获取视频文件和网页资源文件
-	r.StaticFS("/videos", http.Dir(defs.FilePrefix))
-	r.StaticFS("/static", http.Dir(defs.TemplatesPath+"static"))
+	r.StaticFS("/videos", http.Dir(conf.Config.Video.FilePrefix))
+	r.StaticFS("/static", http.Dir(conf.Config.Video.TemplatesPath+"static"))
 
 	// 设置模板路径
-	r.LoadHTMLGlob(defs.TemplatesPath + "*.html")
+	r.LoadHTMLGlob(conf.Config.Video.TemplatesPath + "*.html")
 
 	// 启动HTTP服务
-	r.Run(defs.HttpAddr)
+	r.Run(conf.Config.Http.HttpAddr)
 }

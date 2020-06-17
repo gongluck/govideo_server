@@ -1,0 +1,18 @@
+APPName: govideo_server
+
+http: 
+    ginmode: "release"
+    httpaddr: ":80"
+    sessionname: "govideo_server"
+
+redis:
+    connsize: 10
+    network: "tcp"
+    address: "redis:6379"
+    password: ""
+    key: "govdieo_server"
+
+Video:
+    maxfilesize: 20971520
+    fileprefix: "./videos/"
+    templatespath: "./templatespath"
