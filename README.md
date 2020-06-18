@@ -27,7 +27,10 @@ docker run -i -t --name govideo -p 80:80 -v /e/code/govideo_server/videos:/govid
 
 #脚本运行
 wget https://raw.githubusercontent.com/gongluck/govideo_server/master/docker-compose.yml
+mkdir conf
+cd conf
 wget https://raw.githubusercontent.com/gongluck/govideo_server/master/conf/config.yml
+cd ..
 docker-compose up -d
 docker-compose down
 ```
