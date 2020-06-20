@@ -1,5 +1,5 @@
 # govideo_server
-![](https://github.com/gongluck/govideo_server/blob/master/videos/logo.png)
+![](https://github.com/gongluck/govideo_server/blob/master/templates/static/img/logo.png)
 
 [http://www.gongluck.icu/web/](http://www.gongluck.icu/web/)
 
