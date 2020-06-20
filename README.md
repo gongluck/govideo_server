@@ -3,7 +3,7 @@
 
 [http://www.gongluck.icu/web/](http://www.gongluck.icu/web/)
 
-[http://47.115.57.81/web/](http://47.115.57.81/web/)
+[https://hub.docker.com/repository/docker/gongluck/govideo_server](https://hub.docker.com/repository/docker/gongluck/govideo_server)
 
 ## go开发视频后台服务
 ***GO***+***GORM***+***GIN***+***REDIS***+***UUID***+***DOCKER***
