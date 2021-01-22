@@ -15,6 +15,8 @@ import (
 	"govideo_server/model"
 	"govideo_server/util"
 	"net/http"
+	"os"
+	"path/filepath"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
@@ -99,6 +101,17 @@ func postvideo(c *gin.Context) (*model.Video, int, error) {
 	}
 
 	newfilename := util.NewUUID() + ".mp4"
+
+	// create videos directory if it doesn't exist
+	cwd, err := os.Getwd()
+	if err != nil {
+		fmt.Println(err)
+	}
+	videoDir := filepath.Join(cwd, conf.Config.Video.FilePrefix)
+	if _, err := os.Stat(videoDir); os.IsNotExist(err) {
+		os.Mkdir(videoDir, 0755)
+	}
+
 	err = c.SaveUploadedFile(file, conf.Config.Video.FilePrefix+newfilename)
 	if err != nil {
 		return nil, http.StatusInternalServerError, errors.New("save file failed," + newfilename)

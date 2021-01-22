@@ -41,7 +41,8 @@ func init() {
 
 	fmt.Println("config : *****************")
 	fmt.Println("APPName :", Config.APPName)
-	fmt.Println("Http :", Config.Http.GinMode, Config.Http.HttpAddr, Config.Http.SessionName)
-	fmt.Println("Redis :", Config.Redis.Address, Config.Redis.ConnSize, Config.Redis.Key, Config.Redis.NetWork, Config.Redis.Password)
-	fmt.Println("Videos :", Config.Video.FilePrefix, Config.Video.MaxFileSize, Config.Video.TemplatesPath)
+	fmt.Println("Http :", " GinMode: ", Config.Http.GinMode, ", httpAddr: ", Config.Http.HttpAddr, ", sessionName: ", Config.Http.SessionName)
+	fmt.Println("Redis :", "Address: ", Config.Redis.Address, ", connSize: ", Config.Redis.ConnSize,
+		", key: ", Config.Redis.Key, ", network: ", Config.Redis.NetWork, ", password: ", Config.Redis.Password)
+	fmt.Println("Videos :", "FilePrefix: ", Config.Video.FilePrefix, ", MaxFileSize: ", Config.Video.MaxFileSize, ", TemplatesPath: ", Config.Video.TemplatesPath)
 }

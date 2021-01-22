@@ -9,6 +9,7 @@ package dao
 
 import (
 	"govideo_server/model"
+	"os"
 
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
@@ -20,6 +21,8 @@ var (
 )
 
 func init() {
+	// create database file, if it doesn't exist
+	os.OpenFile("./database/govideo.db", os.O_RDONLY|os.O_CREATE, 0666)
 	db, err = gorm.Open("sqlite3", "./database/govideo.db")
 	if err != nil {
 		panic("failed to connect database " + err.Error())

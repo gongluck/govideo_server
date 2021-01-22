@@ -2,13 +2,13 @@ APPName: govideo_server
 
 http: 
     ginmode: "release"
-    httpaddr: ":80"
+    httpaddr: ":8080"
     sessionname: "govideo_server"
 
 redis:
     connsize: 10
     network: "tcp"
-    address: "redis:6379"
+    address: "127.0.0.1:6379"
     password: ""
     key: "govdieo_server"
 
