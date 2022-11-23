@@ -11,6 +11,7 @@ import (
 	"govideo_server/conf"
 	"govideo_server/handler"
 	"govideo_server/util"
+	"log"
 	"net/http"
 
 	"github.com/gin-contrib/sessions"
@@ -79,5 +80,8 @@ func main() {
 	r.LoadHTMLGlob(conf.Config.Video.TemplatesPath + "*.html")
 
 	// 启动HTTP服务
-	r.Run(conf.Config.Http.HttpAddr)
+	err = r.Run(conf.Config.Http.HttpAddr)
+	if err != nil {
+		log.Printf("fail to start server %v", err.Error())
+	}
 }
